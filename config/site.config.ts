@@ -1,14 +1,14 @@
 export const siteConfig = {
   name: "Justin Chisholm",
-  tagline: "Building thoughtful software, one project at a time.",
+  tagline: "Streamline processes, improve quality, reduce costs.",
   about:
     "I'm a developer who enjoys building clean, functional tools and applications. " +
     "I care about good design, clear code, and solving real problems. " +
     "Always learning, always shipping.",
 
   contact: {
-    email: "justin@example.com",
-    github: "https://github.com/justinchisholm",
+    email: "jstnchshlm@gmail.com",
+    github: "https://github.com/raychisholm",
     linkedin: "https://linkedin.com/in/justinchisholm",
   },
 
@@ -16,18 +16,18 @@ export const siteConfig = {
     {
       title: "Portfolio Site",
       description:
-        "A configurable single-page portfolio with multiple themes, built with Next.js and deployed via Coolify.",
+        "A configurable portfolio with multiple themes, built with Next.js and deployed via Coolify.",
       tech: ["Next.js", "TypeScript", "CSS Modules"],
       url: undefined as string | undefined,
-      repo: "https://github.com/justinchisholm/portfolio",
+      repo: "https://github.com/raychisholm/justinchisholm",
     },
     {
-      title: "Project Two",
+      title: "Video Barcoder",
       description:
-        "A placeholder for your next project. Update this in site.config.ts.",
-      tech: ["React", "Node.js"],
+        "Convert video files into customizable barcodes.",
+      tech: ["Python", "OpenCV"],
       url: undefined as string | undefined,
-      repo: undefined as string | undefined,
+      repo: "https://github.com/RayChisholm/Video-Frame-Images",
     },
     {
       title: "Project Three",
@@ -40,7 +40,7 @@ export const siteConfig = {
   ],
 
   theme: {
-    default: "minimal" as "minimal" | "cyberpunk" | "retro",
+    default: "retro" as "minimal" | "cyberpunk" | "retro",
     allowUserToggle: true,
   },
 };

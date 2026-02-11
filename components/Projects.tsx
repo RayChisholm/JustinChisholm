@@ -26,7 +26,7 @@ export function Projects() {
                     rel="noopener noreferrer"
                     className={styles.link}
                   >
-                    Live
+                    Blog
                   </a>
                 )}
                 {project.repo && (

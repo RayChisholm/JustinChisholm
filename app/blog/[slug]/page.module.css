@@ -120,6 +120,39 @@
   padding: 0;
 }
 
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  margin-bottom: 1rem;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.prose th,
+.prose td {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+
+.prose th {
+  background: var(--surface-hover);
+  font-weight: 700;
+  color: var(--text);
+}
+
+.prose td {
+  background: var(--surface);
+  color: var(--text-muted);
+}
+
 .prose blockquote {
   border-left: 3px solid var(--accent);
   padding-left: 1rem;
