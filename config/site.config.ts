@@ -26,16 +26,8 @@ export const siteConfig = {
       description:
         "Convert video files into customizable barcodes.",
       tech: ["Python", "OpenCV"],
-      url: undefined as string | undefined,
+      url: "http://localhost:3000/blog/video-barcoder",
       repo: "https://github.com/RayChisholm/Video-Frame-Images",
-    },
-    {
-      title: "Project Three",
-      description:
-        "Another placeholder. Add as many projects as you like — the grid adapts automatically.",
-      tech: ["Python", "FastAPI"],
-      url: "https://example.com",
-      repo: undefined as string | undefined,
     },
   ],
 
