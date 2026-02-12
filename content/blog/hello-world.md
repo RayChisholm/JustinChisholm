@@ -31,4 +31,4 @@ The setup is intentionally simple:
 2. Drop it in the `content/blog/` directory
 3. Deploy
 
-That's it. If you're curious about the implementation, the source is on [GitHub](https://github.com/raychisholm/portfolio).
+That's it. If you're curious about the implementation, the source is on [GitHub](https://github.com/raychisholm/justinchisholm).
