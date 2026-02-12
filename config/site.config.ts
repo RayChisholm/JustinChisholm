@@ -31,7 +31,7 @@ export const siteConfig = {
   ],
 
   theme: {
-    default: "cyberpunk" as "minimal" | "cyberpunk" | "retro",
+    default: "cyberpunk" as "minimal" | "cyberpunk" | "retro" | "nord" | "sunset" | "forest",
     allowUserToggle: true,
   },
 };

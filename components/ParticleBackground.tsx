@@ -26,11 +26,17 @@ export function ParticleBackground() {
     let mouseY = -9999;
     let dotColor = "";
     let lineColor = "";
+    let particleOpacity = 0.85;
+    let particleBaseSize = 1.5;
+    let particleLineOpacity = 0.4;
 
     function readThemeColors() {
       const s = getComputedStyle(document.documentElement);
-      dotColor = s.getPropertyValue("--accent").trim();
-      lineColor = s.getPropertyValue("--accent-hover").trim();
+      dotColor = s.getPropertyValue("--particle-color").trim() || s.getPropertyValue("--accent").trim();
+      lineColor = s.getPropertyValue("--particle-line-color").trim() || s.getPropertyValue("--accent-hover").trim();
+      particleOpacity = parseFloat(s.getPropertyValue("--particle-opacity")) || 0.85;
+      particleBaseSize = parseFloat(s.getPropertyValue("--particle-size")) || 1.5;
+      particleLineOpacity = parseFloat(s.getPropertyValue("--particle-line-opacity")) || 0.4;
     }
 
     function getContentHeight() {
@@ -60,7 +66,7 @@ export function ParticleBackground() {
           y: Math.random() * h,
           vx: (Math.random() - 0.5) * 0.4,
           vy: (Math.random() - 0.5) * 0.4,
-          radius: 1.5 + Math.random() * 1.5,
+          radius: particleBaseSize + Math.random() * 1.5,
         });
       }
     }
@@ -111,7 +117,7 @@ export function ParticleBackground() {
           if (dist < 150) {
             const opacity = 1 - dist / 150;
             ctx!.strokeStyle = lineColor.startsWith("#")
-              ? hexToRgba(lineColor, opacity * 0.4)
+              ? hexToRgba(lineColor, opacity * particleLineOpacity)
               : lineColor;
             ctx!.lineWidth = 0.8;
             ctx!.beginPath();
@@ -125,7 +131,7 @@ export function ParticleBackground() {
       // Draw particles
       for (const p of particles) {
         ctx!.fillStyle = dotColor;
-        ctx!.globalAlpha = 0.85;
+        ctx!.globalAlpha = particleOpacity;
         ctx!.beginPath();
         ctx!.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx!.fill();
@@ -171,6 +177,7 @@ export function ParticleBackground() {
       for (const m of mutations) {
         if (m.attributeName === "data-theme") {
           readThemeColors();
+          initParticles();
         }
       }
     });

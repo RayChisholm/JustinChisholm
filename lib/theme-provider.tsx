@@ -8,7 +8,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     <NextThemesProvider
       attribute="data-theme"
       defaultTheme={siteConfig.theme.default}
-      themes={["minimal", "cyberpunk", "retro"]}
+      themes={["minimal", "cyberpunk", "retro", "nord", "sunset", "forest"]}
       enableSystem={false}
     >
       {children}

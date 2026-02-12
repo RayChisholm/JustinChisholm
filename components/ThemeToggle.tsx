@@ -5,12 +5,15 @@ import { useEffect, useState } from "react";
 import { siteConfig } from "@/config/site.config";
 import styles from "./ThemeToggle.module.css";
 
-const themes = ["minimal", "cyberpunk", "retro"] as const;
+const themes = ["minimal", "cyberpunk", "retro", "nord", "sunset", "forest"] as const;
 
 const themeLabels: Record<string, string> = {
   minimal: "Minimal",
   cyberpunk: "Cyber",
   retro: "Retro",
+  nord: "Nord",
+  sunset: "Sunset",
+  forest: "Forest",
 };
 
 export function ThemeToggle() {

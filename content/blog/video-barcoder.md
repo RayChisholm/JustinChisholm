@@ -1,6 +1,6 @@
 ---
 title: "Project: Video Barcoder"
-date: "2025-02-10"
+date: "2025-02-12"
 description: "A simple project that reduces videos into customizable barcode-style images."
 tags: ["project", "python", "creative"]
 ---

@@ -1,5 +1,6 @@
 .toggle {
   display: flex;
+  flex-wrap: wrap;
   gap: 4px;
   background: var(--surface);
   border: 1px solid var(--border);
