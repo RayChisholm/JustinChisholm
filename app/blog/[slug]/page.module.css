@@ -44,6 +44,13 @@
   border: 1px solid var(--border);
 }
 
+.article {
+  position: relative;
+  background: var(--bg);
+  border-radius: var(--radius);
+  padding: 2rem;
+}
+
 /* ===== Prose (rendered markdown) ===== */
 .prose {
   line-height: 1.8;

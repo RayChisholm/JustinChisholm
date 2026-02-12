@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { siteConfig } from "@/config/site.config";
 import { ThemeProvider } from "@/lib/theme-provider";
 import { Navbar } from "@/components/Navbar";
+import { ParticleBackground } from "@/components/ParticleBackground";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -19,7 +20,10 @@ export default function RootLayout({
       <body>
         <ThemeProvider>
           <Navbar />
-          {children}
+          <div style={{ position: "relative" }}>
+            <ParticleBackground />
+            {children}
+          </div>
         </ThemeProvider>
       </body>
     </html>

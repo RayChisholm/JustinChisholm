@@ -29,7 +29,7 @@ export default async function BlogPostPage({
 
   return (
     <main>
-      <article className="section">
+      <article className={`section ${styles.article}`}>
         <Link href="/blog" className={styles.back}>
           &larr; Back to Blog
         </Link>
