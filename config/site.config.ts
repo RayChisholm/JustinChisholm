@@ -26,7 +26,7 @@ export const siteConfig = {
       description:
         "Convert video files into customizable barcodes.",
       tech: ["Python", "OpenCV"],
-      url: "http://localhost:3000/blog/video-barcoder",
+      url: "https://justin-chisholm.vercel.app/blog/video-barcoder",
       repo: "https://github.com/RayChisholm/Video-Frame-Images",
     },
   ],
