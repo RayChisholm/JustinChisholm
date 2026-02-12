@@ -1,10 +1,9 @@
 export const siteConfig = {
   name: "Justin Chisholm",
-  tagline: "Streamline processes, improve quality, reduce costs.",
+  tagline: "Developer. Builder. Problem Solver.",
   about:
-    "I'm a developer who enjoys building clean, functional tools and applications. " +
-    "I care about good design, clear code, and solving real problems. " +
-    "Always learning, always shipping.",
+    "I bridge the gap between corporate scale and entrepreneurial agility - delivering millions in savings for global enterprises while helping startups move fast. " +
+    "I build clean tools, solve complex problems, and never stop shipping.",
 
   contact: {
     email: "jstnchshlm@gmail.com",
@@ -16,7 +15,7 @@ export const siteConfig = {
     {
       title: "Portfolio Site",
       description:
-        "A configurable portfolio with multiple themes, built with Next.js and deployed via Coolify.",
+        "A configurable portfolio with multiple themes, and a MD blog engine.",
       tech: ["Next.js", "TypeScript", "CSS Modules"],
       url: undefined as string | undefined,
       repo: "https://github.com/raychisholm/justinchisholm",
