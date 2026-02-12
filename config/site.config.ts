@@ -9,7 +9,7 @@ export const siteConfig = {
   contact: {
     email: "jstnchshlm@gmail.com",
     github: "https://github.com/raychisholm",
-    linkedin: "https://linkedin.com/in/justinchisholm",
+    linkedin: "https://www.linkedin.com/in/justin-chisholm-465390332/",
   },
 
   projects: [
