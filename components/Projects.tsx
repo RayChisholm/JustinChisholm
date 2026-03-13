@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { siteConfig } from "@/config/site.config";
 import styles from "./Projects.module.css";
 
@@ -20,14 +21,20 @@ export function Projects() {
               </div>
               <div className={styles.links}>
                 {project.url && (
-                  <a
-                    href={project.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={styles.link}
-                  >
-                    Blog
-                  </a>
+                  project.urlExternal === false ? (
+                    <Link href={project.url} className={styles.link}>
+                      {project.urlLabel ?? "View"}
+                    </Link>
+                  ) : (
+                    <a
+                      href={project.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.link}
+                    >
+                      {project.urlLabel ?? "Blog"}
+                    </a>
+                  )
                 )}
                 {project.repo && (
                   <a

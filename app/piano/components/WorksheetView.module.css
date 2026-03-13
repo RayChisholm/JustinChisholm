@@ -1,0 +1,108 @@
+.container {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  width: 800px;
+  pointer-events: none;
+  background: white;
+}
+
+@media print {
+  .container {
+    display: block !important;
+    color: black;
+    background: white;
+  }
+}
+
+.header {
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid black;
+  padding-bottom: 0.75rem;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: black;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: black;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.staffCell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.staffContainer {
+  background: white;
+  width: 160px;
+}
+
+.staffContainer svg {
+  display: block;
+}
+
+.answerRow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+}
+
+.noteNum {
+  font-size: 0.8rem;
+  color: black;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+
+.answerKey {
+  page-break-before: always;
+  padding-top: 2rem;
+  border-top: 2px solid black;
+  margin-top: 2rem;
+}
+
+.answerTitle {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: black;
+  margin-bottom: 1rem;
+}
+
+.answers {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem 1rem;
+}
+
+.answer {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.answerNum {
+  font-size: 0.85rem;
+  color: black;
+  font-weight: bold;
+}
+
+.answerNote {
+  font-size: 1rem;
+  color: black;
+  font-weight: 600;
+}

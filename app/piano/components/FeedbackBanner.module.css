@@ -1,0 +1,75 @@
+.banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
+
+.correct {
+  background: rgba(34, 197, 94, 0.12);
+  border-color: rgba(34, 197, 94, 0.4);
+  color: #22c55e;
+}
+
+.wrong {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.4);
+  color: #ef4444;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.wrong .message {
+  color: var(--text);
+}
+
+.icon {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.correct .icon {
+  color: #22c55e;
+}
+
+.wrong .icon {
+  color: #ef4444;
+}
+
+.streak {
+  background: var(--accent);
+  color: white;
+  font-size: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-weight: 600;
+  color: var(--bg);
+}
+
+.next {
+  padding: 0.5rem 1.25rem;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.15s;
+}
+
+.next:hover {
+  opacity: 0.85;
+}

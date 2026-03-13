@@ -1,0 +1,90 @@
+.keyboardWrapper {
+  width: 100%;
+  overflow-x: auto;
+  padding: 1rem 0 1.5rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.keyboard {
+  display: flex;
+  align-items: flex-start;
+  width: max-content;
+  margin: 0 auto;
+  gap: 0;
+}
+
+.octave {
+  position: relative;
+  width: 196px; /* 7 white keys × 28px */
+  height: 140px;
+  flex-shrink: 0;
+}
+
+.octave:last-child {
+  width: 28px;
+}
+
+.activeOctave .whiteKey {
+  background: #fffef0 !important;
+}
+
+.whiteKey {
+  position: absolute;
+  width: 26px;
+  height: 140px;
+  background: white;
+  border: 1px solid #aaa;
+  border-radius: 0 0 4px 4px;
+  cursor: pointer;
+  transition: background 0.1s;
+  z-index: 1;
+}
+
+.whiteKey:hover {
+  background: #e8f4ff;
+}
+
+.whiteKey:active {
+  background: #c8e0ff;
+}
+
+.highlightWhite::after,
+.highlightBlack::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border-radius: 0 0 4px 4px;
+  background: #4ade80;
+  pointer-events: none;
+}
+
+.highlightWhite::after {
+  height: 28px;
+}
+
+.highlightBlack::after {
+  height: 18px;
+  background: #22c55e;
+}
+
+.blackKey {
+  position: absolute;
+  width: 17px;
+  height: 88px;
+  background: #1a1a1a;
+  border: 1px solid #000;
+  border-radius: 0 0 3px 3px;
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.1s;
+}
+
+.blackKey:hover {
+  background: #333;
+}
+
+.blackKey:active {
+  background: #555;
+}

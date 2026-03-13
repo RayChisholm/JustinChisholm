@@ -18,6 +18,8 @@ export const siteConfig = {
         "A configurable portfolio with multiple themes, and a MD blog engine.",
       tech: ["Next.js", "TypeScript", "CSS Modules"],
       url: undefined as string | undefined,
+      urlExternal: undefined as boolean | undefined,
+      urlLabel: undefined as string | undefined,
       repo: "https://github.com/raychisholm/justinchisholm",
     },
     {
@@ -26,7 +28,19 @@ export const siteConfig = {
         "Convert video files into customizable barcodes.",
       tech: ["Python", "OpenCV"],
       url: "https://justin-chisholm.vercel.app/blog/video-barcoder",
+      urlExternal: true,
+      urlLabel: "Blog",
       repo: "https://github.com/RayChisholm/Video-Frame-Images",
+    },
+    {
+      title: "Piano Sight-Reading",
+      description:
+        "Interactive sight-reading trainer with grand staff notation, key signatures, and printable worksheets.",
+      tech: ["Next.js", "VexFlow", "TypeScript"],
+      url: "/piano",
+      urlExternal: false,
+      urlLabel: "Play",
+      repo: undefined as string | undefined,
     },
   ],
 
