@@ -20,6 +20,7 @@ export const siteConfig = {
       url: undefined as string | undefined,
       urlExternal: undefined as boolean | undefined,
       urlLabel: undefined as string | undefined,
+      blogUrl: undefined as string | undefined,
       repo: "https://github.com/raychisholm/justinchisholm",
     },
     {
@@ -30,6 +31,7 @@ export const siteConfig = {
       url: "https://justin-chisholm.vercel.app/blog/video-barcoder",
       urlExternal: true,
       urlLabel: "Blog",
+      blogUrl: undefined as string | undefined,
       repo: "https://github.com/RayChisholm/Video-Frame-Images",
     },
     {
@@ -40,6 +42,7 @@ export const siteConfig = {
       url: "/piano",
       urlExternal: false,
       urlLabel: "Play",
+      blogUrl: "/blog/piano-sight-reading",
       repo: undefined as string | undefined,
     },
   ],

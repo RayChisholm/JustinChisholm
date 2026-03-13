@@ -36,6 +36,11 @@ export function Projects() {
                     </a>
                   )
                 )}
+                {project.blogUrl && (
+                  <Link href={project.blogUrl} className={styles.link}>
+                    Blog
+                  </Link>
+                )}
                 {project.repo && (
                   <a
                     href={project.repo}
