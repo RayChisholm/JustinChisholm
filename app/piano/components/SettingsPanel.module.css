@@ -90,6 +90,10 @@
   color: var(--text);
 }
 
+.accidentalsRow {
+  margin-top: 0.75rem;
+}
+
 .checkbox {
   width: 16px;
   height: 16px;

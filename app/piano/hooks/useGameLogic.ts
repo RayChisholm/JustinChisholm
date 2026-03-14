@@ -5,19 +5,19 @@ import {
   Note,
   KeySig,
   WeightedNote,
-  buildFullPool,
+  KEY_SIGNATURES,
+  buildChromaticPool,
   buildPoolForKey,
   weightedRandom,
   updateWeights,
-  randomKeySig,
   notesMatch,
 } from "@/app/piano/lib/music";
 
 export type GamePhase = "settings" | "playing" | "feedback" | "summary";
 
 export interface GameSettings {
-  mode: "chromatic" | "random-key";
-  keyChangeFrequency: "session" | "note";
+  keySigVexKey: string;
+  allowAccidentals: boolean;
   timerEnabled: boolean;
   timerSeconds: number;
   notesPerSession: number;
@@ -54,17 +54,22 @@ type Action =
   | { type: "TIMER_EXPIRED" };
 
 const DEFAULT_SETTINGS: GameSettings = {
-  mode: "chromatic",
-  keyChangeFrequency: "session",
+  keySigVexKey: "C",
+  allowAccidentals: false,
   timerEnabled: false,
   timerSeconds: 5,
   notesPerSession: 10,
 };
 
-function makeInitialSession(settings: GameSettings, pool: WeightedNote[]): SessionState {
-  const key = settings.mode === "random-key" ? randomKeySig() : null;
-  const effectivePool = key ? buildPoolForKey(key) : pool;
-  const firstNote = weightedRandom(effectivePool);
+function resolvePool(settings: GameSettings): { key: KeySig; pool: WeightedNote[] } {
+  const key = KEY_SIGNATURES.find((k) => k.vexKey === settings.keySigVexKey) ?? KEY_SIGNATURES[0];
+  const pool = settings.allowAccidentals ? buildChromaticPool() : buildPoolForKey(key);
+  return { key, pool };
+}
+
+function makeInitialSession(settings: GameSettings): SessionState {
+  const { key, pool } = resolvePool(settings);
+  const firstNote = weightedRandom(pool);
   return {
     notesRemaining: settings.notesPerSession - 1,
     score: 0,
@@ -93,7 +98,7 @@ function getInitialState(): GameState {
       correctNote: null,
       history: [],
     },
-    weightedPool: buildFullPool(),
+    weightedPool: buildPoolForKey(KEY_SIGNATURES[0]),
     enharmonicPending: null,
   };
 }
@@ -104,8 +109,8 @@ function reducer(state: GameState, action: Action): GameState {
       return { ...state, settings: { ...state.settings, ...action.payload } };
 
     case "START_SESSION": {
-      const pool = buildFullPool();
-      const session = makeInitialSession(state.settings, pool);
+      const { pool } = resolvePool(state.settings);
+      const session = makeInitialSession(state.settings);
       return {
         ...state,
         phase: "playing",
@@ -173,13 +178,7 @@ function reducer(state: GameState, action: Action): GameState {
         return { ...state, phase: "summary" };
       }
 
-      let newKey = currentKey;
-      if (state.settings.mode === "random-key" && state.settings.keyChangeFrequency === "note") {
-        newKey = randomKeySig();
-      }
-
-      const pool = newKey ? buildPoolForKey(newKey) : state.weightedPool;
-      const nextNote = weightedRandom(pool);
+      const nextNote = weightedRandom(state.weightedPool);
 
       return {
         ...state,
@@ -188,7 +187,7 @@ function reducer(state: GameState, action: Action): GameState {
           ...state.session,
           notesRemaining: notesRemaining - 1,
           currentNote: nextNote,
-          currentKey: newKey,
+          currentKey,
           lastWasCorrect: null,
           correctNote: null,
         },

@@ -23,41 +23,29 @@ export function SettingsPanel({ settings, onUpdate, onStart, onPrintWorksheet }:
       <p className={styles.subtitle}>Practice identifying notes on the grand staff</p>
 
       <div className={styles.section}>
-        <h2 className={styles.sectionTitle}>Mode</h2>
-        <div className={styles.toggle}>
-          <button
-            className={`${styles.toggleBtn} ${settings.mode === "chromatic" ? styles.active : ""}`}
-            onClick={() => onUpdate({ mode: "chromatic" })}
-          >
-            Chromatic
-          </button>
-          <button
-            className={`${styles.toggleBtn} ${settings.mode === "random-key" ? styles.active : ""}`}
-            onClick={() => onUpdate({ mode: "random-key" })}
-          >
-            Random Key
-          </button>
-        </div>
-
-        {settings.mode === "random-key" && (
-          <div className={styles.subsection}>
-            <label className={styles.label}>Key changes</label>
-            <div className={styles.toggle}>
-              <button
-                className={`${styles.toggleBtn} ${settings.keyChangeFrequency === "session" ? styles.active : ""}`}
-                onClick={() => onUpdate({ keyChangeFrequency: "session" })}
-              >
-                Per Session
-              </button>
-              <button
-                className={`${styles.toggleBtn} ${settings.keyChangeFrequency === "note" ? styles.active : ""}`}
-                onClick={() => onUpdate({ keyChangeFrequency: "note" })}
-              >
-                Per Note
-              </button>
-            </div>
-          </div>
-        )}
+        <h2 className={styles.sectionTitle}>Key</h2>
+        <select
+          className={styles.numberInput}
+          value={settings.keySigVexKey}
+          onChange={(e) => onUpdate({ keySigVexKey: e.target.value })}
+          style={{ width: "auto" }}
+        >
+          {KEY_SIGNATURES.map((k) => {
+            const count = k.alteredNotes.length;
+            const symbol = k.alterationType === "sharp" ? "♯" : k.alterationType === "flat" ? "♭" : "";
+            const label = count === 0 ? `${k.name} (no accidentals)` : `${k.name} (${count}${symbol})`;
+            return <option key={k.vexKey} value={k.vexKey}>{label}</option>;
+          })}
+        </select>
+        <label className={`${styles.checkRow} ${styles.accidentalsRow}`}>
+          <input
+            type="checkbox"
+            checked={settings.allowAccidentals}
+            onChange={(e) => onUpdate({ allowAccidentals: e.target.checked })}
+            className={styles.checkbox}
+          />
+          <span>Include accidentals</span>
+        </label>
       </div>
 
       <div className={styles.section}>
