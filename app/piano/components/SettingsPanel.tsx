@@ -1,8 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import { GameSettings } from "@/app/piano/hooks/useGameLogic";
 import { KEY_SIGNATURES } from "@/app/piano/lib/music";
 import styles from "./SettingsPanel.module.css";
+
+const NOTES_PER_PAGE = 20;
 
 interface Props {
   settings: GameSettings;
@@ -109,23 +112,30 @@ export function SettingsPanel({ settings, onUpdate, onStart, onPrintWorksheet }:
 }
 
 function WorksheetControls({ onPrint }: { onPrint: (keySig: string, count: number) => void }) {
+  const [pages, setPages] = useState(1);
+
   return (
     <div className={styles.worksheetControls}>
       <p className={styles.worksheetNote}>
         Generate a worksheet with random notes to print and practice offline.
       </p>
       <div className={styles.worksheetRow}>
+        <label className={styles.label} style={{ margin: 0, alignSelf: "center" }}>Pages:</label>
+        <select
+          className={styles.numberInput}
+          value={pages}
+          onChange={(e) => setPages(Number(e.target.value))}
+          style={{ width: "auto" }}
+        >
+          {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
+            <option key={n} value={n}>{n}</option>
+          ))}
+        </select>
         <button
           className={styles.worksheetBtn}
-          onClick={() => onPrint("C", 10)}
+          onClick={() => onPrint("C", pages * NOTES_PER_PAGE)}
         >
-          Print 10 Notes
-        </button>
-        <button
-          className={styles.worksheetBtn}
-          onClick={() => onPrint("C", 20)}
-        >
-          Print 20 Notes
+          Generate Worksheet
         </button>
       </div>
     </div>
