@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useCallback, useState } from "react";
 import { createPortal } from "react-dom";
-import { Note, buildFullPool, weightedRandom } from "@/app/piano/lib/music";
+import { Note, KeySig, KEY_SIGNATURES, buildFullPool, buildPoolForKey, weightedRandom } from "@/app/piano/lib/music";
 import styles from "./WorksheetView.module.css";
 import "./worksheet-print.css";
 
@@ -137,8 +137,8 @@ function WorksheetStaff({ note, index, onRendered }: { note: Note; index: number
   );
 }
 
-export function generateWorksheetNotes(count: number): Note[] {
-  const pool = buildFullPool().filter((wn) => wn.note.accidental === null);
+export function generateWorksheetNotes(count: number, keySig: KeySig, allowAccidentals: boolean): Note[] {
+  const pool = allowAccidentals ? buildFullPool() : buildPoolForKey(keySig);
   const notes: Note[] = [];
   for (let i = 0; i < count; i++) {
     notes.push(weightedRandom(pool));

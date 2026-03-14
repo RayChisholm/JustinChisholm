@@ -14,7 +14,7 @@ interface Props {
   settings: GameSettings;
   onUpdate: (s: Partial<GameSettings>) => void;
   onStart: () => void;
-  onPrintWorksheet: (keySig: string, count: number) => void;
+  onPrintWorksheet: (keySig: string, count: number, allowAccidentals: boolean) => void;
 }
 
 export function SettingsPanel({ settings, onUpdate, onStart, onPrintWorksheet }: Props) {
@@ -114,14 +114,38 @@ export function SettingsPanel({ settings, onUpdate, onStart, onPrintWorksheet }:
   );
 }
 
-function WorksheetControls({ onPrint }: { onPrint: (keySig: string, count: number) => void }) {
+function WorksheetControls({ onPrint }: { onPrint: (keySig: string, count: number, allowAccidentals: boolean) => void }) {
   const [pages, setPages] = useState(1);
+  const [keySig, setKeySig] = useState("C");
+  const [allowAccidentals, setAllowAccidentals] = useState(false);
 
   return (
     <div className={styles.worksheetControls}>
       <p className={styles.worksheetNote}>
         Generate a worksheet with random notes to print and practice offline.
       </p>
+      <div className={styles.worksheetOption}>
+        <label className={styles.label}>Key</label>
+        <select
+          className={styles.numberInput}
+          value={keySig}
+          onChange={(e) => setKeySig(e.target.value)}
+          style={{ width: "auto" }}
+        >
+          {KEY_SIGNATURES.map((k) => (
+            <option key={k.vexKey} value={k.vexKey}>{k.name}</option>
+          ))}
+        </select>
+      </div>
+      <label className={`${styles.checkRow} ${styles.worksheetOption}`}>
+        <input
+          type="checkbox"
+          checked={allowAccidentals}
+          onChange={(e) => setAllowAccidentals(e.target.checked)}
+          className={styles.checkbox}
+        />
+        <span>Include accidentals</span>
+      </label>
       <div className={styles.worksheetRow}>
         <label className={styles.label} style={{ margin: 0, alignSelf: "center" }}>Pages:</label>
         <select
@@ -136,7 +160,7 @@ function WorksheetControls({ onPrint }: { onPrint: (keySig: string, count: numbe
         </select>
         <button
           className={styles.worksheetBtn}
-          onClick={() => onPrint("C", notesForPages(pages))}
+          onClick={() => onPrint(keySig, notesForPages(pages), allowAccidentals)}
         >
           Generate Worksheet
         </button>

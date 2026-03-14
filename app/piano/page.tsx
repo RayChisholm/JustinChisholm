@@ -9,7 +9,7 @@ import { FeedbackBanner } from "@/app/piano/components/FeedbackBanner";
 import { SettingsPanel } from "@/app/piano/components/SettingsPanel";
 import { SummaryScreen } from "@/app/piano/components/SummaryScreen";
 import { WorksheetView, generateWorksheetNotes } from "@/app/piano/components/WorksheetView";
-import { Note } from "@/app/piano/lib/music";
+import { Note, KEY_SIGNATURES } from "@/app/piano/lib/music";
 import styles from "./page.module.css";
 
 export default function PianoPage() {
@@ -19,8 +19,9 @@ export default function PianoPage() {
 
   const [worksheetNotes, setWorksheetNotes] = useState<Note[]>([]);
 
-  function handlePrintWorksheet(_keySig: string, count: number) {
-    setWorksheetNotes(generateWorksheetNotes(count));
+  function handlePrintWorksheet(keySigVexKey: string, count: number, allowAccidentals: boolean) {
+    const keySig = KEY_SIGNATURES.find((k) => k.vexKey === keySigVexKey) ?? KEY_SIGNATURES[0];
+    setWorksheetNotes(generateWorksheetNotes(count, keySig, allowAccidentals));
     // window.print() fires via onAllRendered callback in WorksheetView
   }
 
