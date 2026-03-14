@@ -116,6 +116,27 @@ export function buildFullPool(): WeightedNote[] {
   return [...buildTreblePool(), ...buildBassPool()].map((note) => ({ note, weight: 1 }));
 }
 
+// Chromatic pool with both sharp AND flat spellings for worksheet accidentals
+export function buildChromaticPool(): WeightedNote[] {
+  const trebleFlats: { name: NoteName; accidental: Accidental; octave: number }[] = [
+    { name: "D", accidental: "b", octave: 4 }, { name: "E", accidental: "b", octave: 4 },
+    { name: "G", accidental: "b", octave: 4 }, { name: "A", accidental: "b", octave: 4 },
+    { name: "B", accidental: "b", octave: 4 }, { name: "D", accidental: "b", octave: 5 },
+    { name: "E", accidental: "b", octave: 5 }, { name: "G", accidental: "b", octave: 5 },
+  ];
+  const bassFlats: { name: NoteName; accidental: Accidental; octave: number }[] = [
+    { name: "G", accidental: "b", octave: 2 }, { name: "A", accidental: "b", octave: 2 },
+    { name: "B", accidental: "b", octave: 2 }, { name: "D", accidental: "b", octave: 3 },
+    { name: "E", accidental: "b", octave: 3 }, { name: "G", accidental: "b", octave: 3 },
+    { name: "A", accidental: "b", octave: 3 }, { name: "B", accidental: "b", octave: 3 },
+  ];
+  const flatNotes: Note[] = [
+    ...trebleFlats.map(({ name, accidental, octave }) => makeNote(name, accidental, octave, "treble")),
+    ...bassFlats.map(({ name, accidental, octave }) => makeNote(name, accidental, octave, "bass")),
+  ];
+  return [...buildFullPool(), ...flatNotes.map((note) => ({ note, weight: 1 }))];
+}
+
 export function buildNaturalPool(): WeightedNote[] {
   return [...buildTreblePool(), ...buildBassPool()]
     .filter((n) => n.accidental === null)

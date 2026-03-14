@@ -2,16 +2,17 @@
 
 import { useEffect, useRef, useCallback, useState } from "react";
 import { createPortal } from "react-dom";
-import { Note, KeySig, KEY_SIGNATURES, buildFullPool, buildPoolForKey, weightedRandom } from "@/app/piano/lib/music";
+import { Note, KeySig, buildChromaticPool, buildPoolForKey, weightedRandom } from "@/app/piano/lib/music";
 import styles from "./WorksheetView.module.css";
 import "./worksheet-print.css";
 
 interface Props {
   notes: Note[];
+  keySig: KeySig;
   onAllRendered?: () => void;
 }
 
-export function WorksheetView({ notes, onAllRendered }: Props) {
+export function WorksheetView({ notes, keySig, onAllRendered }: Props) {
   const renderedCount = useRef(0);
   const hasFired = useRef(false);
   const [mounted, setMounted] = useState(false);
@@ -43,7 +44,7 @@ export function WorksheetView({ notes, onAllRendered }: Props) {
 
       <div className={styles.grid}>
         {notes.map((note, i) => (
-          <WorksheetStaff key={`${note.vexKey}-${i}`} note={note} index={i + 1} onRendered={handleStaffRendered} />
+          <WorksheetStaff key={`${note.vexKey}-${i}`} note={note} keySig={keySig} index={i + 1} onRendered={handleStaffRendered} />
         ))}
       </div>
 
@@ -66,7 +67,7 @@ export function WorksheetView({ notes, onAllRendered }: Props) {
   return createPortal(content, document.body);
 }
 
-function WorksheetStaff({ note, index, onRendered }: { note: Note; index: number; onRendered: () => void }) {
+function WorksheetStaff({ note, keySig, index, onRendered }: { note: Note; keySig: KeySig; index: number; onRendered: () => void }) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -76,17 +77,22 @@ function WorksheetStaff({ note, index, onRendered }: { note: Note; index: number
     import("vexflow").then((VF) => {
       const { Renderer, Stave, StaveNote, GhostNote, Accidental, StaveConnector, Voice, Formatter } = VF;
 
+      // Wider stave to accommodate key signature accidentals (~13px each)
+      const numAcc = keySig.alteredNotes.length;
+      const staveWidth = 130 + numAcc * 13;
+      const rendererWidth = staveWidth + 30;
+
       container.innerHTML = "";
       const renderer = new Renderer(container, Renderer.Backends.SVG);
-      renderer.resize(160, 200);
+      renderer.resize(rendererWidth, 200);
       const ctx = renderer.getContext();
 
-      const treble = new Stave(10, 10, 130);
-      treble.addClef("treble");
+      const treble = new Stave(10, 10, staveWidth);
+      treble.addClef("treble").addKeySignature(keySig.vexKey);
       treble.setContext(ctx).draw();
 
-      const bass = new Stave(10, 110, 130);
-      bass.addClef("bass");
+      const bass = new Stave(10, 110, staveWidth);
+      bass.addClef("bass").addKeySignature(keySig.vexKey);
       bass.setContext(ctx).draw();
 
       new StaveConnector(treble, bass)
@@ -104,25 +110,30 @@ function WorksheetStaff({ note, index, onRendered }: { note: Note; index: number
         duration: "q",
         clef: note.clef,
       });
-      if (note.accidental) {
-        activeNoteObj.addModifier(new Accidental(note.accidental), 0);
-      }
+      // Do NOT manually add accidentals — applyAccidentals handles it,
+      // suppressing signs that are already implied by the key signature.
 
       const ghostRest = new GhostNote({ duration: "q" });
+      const noteWidth = staveWidth - 50;
 
       const trebleVoice = new Voice({ numBeats: 1, beatValue: 4 }).setStrict(false);
       trebleVoice.addTickable(isInTreble ? activeNoteObj : ghostRest);
-      new Formatter().joinVoices([trebleVoice]).format([trebleVoice], 90);
-      trebleVoice.draw(ctx, treble);
+      new Formatter().joinVoices([trebleVoice]).format([trebleVoice], noteWidth);
 
       const bassVoice = new Voice({ numBeats: 1, beatValue: 4 }).setStrict(false);
       bassVoice.addTickable(isInTreble ? ghostRest : activeNoteObj);
-      new Formatter().joinVoices([bassVoice]).format([bassVoice], 90);
+      new Formatter().joinVoices([bassVoice]).format([bassVoice], noteWidth);
+
+      // Apply accidentals relative to the key signature: diatonic notes show
+      // no sign, chromatic alterations get their explicit sharp/flat/natural.
+      Accidental.applyAccidentals([trebleVoice, bassVoice], keySig.vexKey);
+
+      trebleVoice.draw(ctx, treble);
       bassVoice.draw(ctx, bass);
 
       onRendered();
     });
-  }, [note, onRendered]);
+  }, [note, keySig, onRendered]);
 
   return (
     <div className={styles.staffCell}>
@@ -138,7 +149,7 @@ function WorksheetStaff({ note, index, onRendered }: { note: Note; index: number
 }
 
 export function generateWorksheetNotes(count: number, keySig: KeySig, allowAccidentals: boolean): Note[] {
-  const pool = allowAccidentals ? buildFullPool() : buildPoolForKey(keySig);
+  const pool = allowAccidentals ? buildChromaticPool() : buildPoolForKey(keySig);
   const notes: Note[] = [];
   for (let i = 0; i < count; i++) {
     notes.push(weightedRandom(pool));

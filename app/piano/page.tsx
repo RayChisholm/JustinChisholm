@@ -9,7 +9,7 @@ import { FeedbackBanner } from "@/app/piano/components/FeedbackBanner";
 import { SettingsPanel } from "@/app/piano/components/SettingsPanel";
 import { SummaryScreen } from "@/app/piano/components/SummaryScreen";
 import { WorksheetView, generateWorksheetNotes } from "@/app/piano/components/WorksheetView";
-import { Note, KEY_SIGNATURES } from "@/app/piano/lib/music";
+import { Note, KeySig, KEY_SIGNATURES } from "@/app/piano/lib/music";
 import styles from "./page.module.css";
 
 export default function PianoPage() {
@@ -18,9 +18,11 @@ export default function PianoPage() {
   const { phase, session, settings } = state;
 
   const [worksheetNotes, setWorksheetNotes] = useState<Note[]>([]);
+  const [worksheetKeySig, setWorksheetKeySig] = useState<KeySig>(KEY_SIGNATURES[0]);
 
   function handlePrintWorksheet(keySigVexKey: string, count: number, allowAccidentals: boolean) {
     const keySig = KEY_SIGNATURES.find((k) => k.vexKey === keySigVexKey) ?? KEY_SIGNATURES[0];
+    setWorksheetKeySig(keySig);
     setWorksheetNotes(generateWorksheetNotes(count, keySig, allowAccidentals));
     // window.print() fires via onAllRendered callback in WorksheetView
   }
@@ -91,7 +93,7 @@ export default function PianoPage() {
         )}
       </div>
 
-      <WorksheetView notes={worksheetNotes} onAllRendered={handleAllRendered} />
+      <WorksheetView notes={worksheetNotes} keySig={worksheetKeySig} onAllRendered={handleAllRendered} />
     </main>
   );
 }
