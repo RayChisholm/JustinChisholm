@@ -19,10 +19,12 @@ export default function PianoPage() {
 
   const [worksheetNotes, setWorksheetNotes] = useState<Note[]>([]);
   const [worksheetKeySig, setWorksheetKeySig] = useState<KeySig>(KEY_SIGNATURES[0]);
+  const [worksheetAccidentals, setWorksheetAccidentals] = useState(false);
 
   function handlePrintWorksheet(keySigVexKey: string, count: number, allowAccidentals: boolean) {
     const keySig = KEY_SIGNATURES.find((k) => k.vexKey === keySigVexKey) ?? KEY_SIGNATURES[0];
     setWorksheetKeySig(keySig);
+    setWorksheetAccidentals(allowAccidentals);
     setWorksheetNotes(generateWorksheetNotes(count, keySig, allowAccidentals));
     // window.print() fires via onAllRendered callback in WorksheetView
   }
@@ -93,7 +95,7 @@ export default function PianoPage() {
         )}
       </div>
 
-      <WorksheetView notes={worksheetNotes} keySig={worksheetKeySig} onAllRendered={handleAllRendered} />
+      <WorksheetView notes={worksheetNotes} keySig={worksheetKeySig} allowAccidentals={worksheetAccidentals} onAllRendered={handleAllRendered} />
     </main>
   );
 }

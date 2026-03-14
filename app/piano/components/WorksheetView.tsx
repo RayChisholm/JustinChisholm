@@ -9,10 +9,11 @@ import "./worksheet-print.css";
 interface Props {
   notes: Note[];
   keySig: KeySig;
+  allowAccidentals: boolean;
   onAllRendered?: () => void;
 }
 
-export function WorksheetView({ notes, keySig, onAllRendered }: Props) {
+export function WorksheetView({ notes, keySig, allowAccidentals, onAllRendered }: Props) {
   const renderedCount = useRef(0);
   const hasFired = useRef(false);
   const [mounted, setMounted] = useState(false);
@@ -39,6 +40,10 @@ export function WorksheetView({ notes, keySig, onAllRendered }: Props) {
     <div className={styles.container} id="worksheet-print">
       <div className={styles.header}>
         <h1 className={styles.title}>Piano Sight-Reading Worksheet</h1>
+        <div className={styles.headerMeta}>
+          <span>Key: <strong>{keySig.name}</strong></span>
+          <span>Accidentals: <strong>{allowAccidentals ? "Yes" : "No"}</strong></span>
+        </div>
         <p className={styles.subtitle}>Name: _________________________ Date: _____________</p>
       </div>
 

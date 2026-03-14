@@ -28,6 +28,14 @@
   margin-bottom: 0.5rem;
 }
 
+.headerMeta {
+  display: flex;
+  gap: 2rem;
+  font-size: 0.9rem;
+  color: black;
+  margin-bottom: 0.4rem;
+}
+
 .subtitle {
   font-size: 0.9rem;
   color: black;
