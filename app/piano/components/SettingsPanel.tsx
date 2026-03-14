@@ -132,9 +132,12 @@ function WorksheetControls({ onPrint }: { onPrint: (keySig: string, count: numbe
           onChange={(e) => setKeySig(e.target.value)}
           style={{ width: "auto" }}
         >
-          {KEY_SIGNATURES.map((k) => (
-            <option key={k.vexKey} value={k.vexKey}>{k.name}</option>
-          ))}
+          {KEY_SIGNATURES.map((k) => {
+            const count = k.alteredNotes.length;
+            const symbol = k.alterationType === "sharp" ? "♯" : k.alterationType === "flat" ? "♭" : "";
+            const label = count === 0 ? `${k.name} (no accidentals)` : `${k.name} (${count}${symbol})`;
+            return <option key={k.vexKey} value={k.vexKey}>{label}</option>;
+          })}
         </select>
       </div>
       <label className={`${styles.checkRow} ${styles.worksheetOption}`}>

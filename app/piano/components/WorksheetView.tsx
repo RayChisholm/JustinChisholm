@@ -124,9 +124,9 @@ function WorksheetStaff({ note, keySig, index, onRendered }: { note: Note; keySi
       bassVoice.addTickable(isInTreble ? ghostRest : activeNoteObj);
       new Formatter().joinVoices([bassVoice]).format([bassVoice], noteWidth);
 
-      // Apply accidentals relative to the key signature: diatonic notes show
-      // no sign, chromatic alterations get their explicit sharp/flat/natural.
-      Accidental.applyAccidentals([trebleVoice, bassVoice], keySig.vexKey);
+      // Apply accidentals only to the voice with the real StaveNote.
+      // GhostNote in the other voice causes an unformatted-note crash.
+      Accidental.applyAccidentals([isInTreble ? trebleVoice : bassVoice], keySig.vexKey);
 
       trebleVoice.draw(ctx, treble);
       bassVoice.draw(ctx, bass);
