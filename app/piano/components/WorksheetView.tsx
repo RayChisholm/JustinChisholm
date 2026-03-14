@@ -110,8 +110,24 @@ function WorksheetStaff({ note, keySig, index, onRendered }: { note: Note; keySi
         duration: "q",
         clef: note.clef,
       });
-      // Do NOT manually add accidentals — applyAccidentals handles it,
-      // suppressing signs that are already implied by the key signature.
+
+      // Manually resolve which accidental symbol to show on the staff.
+      // - Note is diatonic to key (e.g. F# in G major) → no symbol
+      // - Note is natural but key would alter it (e.g. F♮ in G major) → natural sign
+      // - Note has an accidental not in the key (e.g. Bb in G major) → show it
+      const keyAcc = keySig.alterationType === "sharp" ? "#"
+                   : keySig.alterationType === "flat"  ? "b"
+                   : null;
+      const noteIsAlteredInKey = keySig.alteredNotes.includes(note.name);
+      let displayAcc: string | null = null;
+      if (noteIsAlteredInKey) {
+        if (note.accidental === null) displayAcc = "n";       // natural cancels key sig
+        else if (note.accidental !== keyAcc) displayAcc = note.accidental; // different acc
+        // else: matches key sig — no symbol needed
+      } else {
+        displayAcc = note.accidental; // chromatic acc shown as-is; null = no symbol
+      }
+      if (displayAcc) activeNoteObj.addModifier(new Accidental(displayAcc), 0);
 
       const ghostRest = new GhostNote({ duration: "q" });
       const noteWidth = staveWidth - 50;
@@ -123,10 +139,6 @@ function WorksheetStaff({ note, keySig, index, onRendered }: { note: Note; keySi
       const bassVoice = new Voice({ numBeats: 1, beatValue: 4 }).setStrict(false);
       bassVoice.addTickable(isInTreble ? ghostRest : activeNoteObj);
       new Formatter().joinVoices([bassVoice]).format([bassVoice], noteWidth);
-
-      // Apply accidentals only to the voice with the real StaveNote.
-      // GhostNote in the other voice causes an unformatted-note crash.
-      Accidental.applyAccidentals([isInTreble ? trebleVoice : bassVoice], keySig.vexKey);
 
       trebleVoice.draw(ctx, treble);
       bassVoice.draw(ctx, bass);
