@@ -77,10 +77,11 @@ function WorksheetStaff({ note, keySig, index, onRendered }: { note: Note; keySi
     import("vexflow").then((VF) => {
       const { Renderer, Stave, StaveNote, GhostNote, Accidental, StaveConnector, Voice, Formatter } = VF;
 
-      // Wider stave to accommodate key signature accidentals (~13px each)
-      const numAcc = keySig.alteredNotes.length;
-      const staveWidth = 130 + numAcc * 13;
-      const rendererWidth = staveWidth + 30;
+      // Fixed size wide enough for up to 7 key-sig accidentals.
+      // Dynamic sizing caused the SVG to exceed the grid column width,
+      // which made the browser scale it down and shrink the note display.
+      const staveWidth = 155;
+      const rendererWidth = 185;
 
       container.innerHTML = "";
       const renderer = new Renderer(container, Renderer.Backends.SVG);
