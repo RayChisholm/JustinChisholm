@@ -5,7 +5,10 @@ import { GameSettings } from "@/app/piano/hooks/useGameLogic";
 import { KEY_SIGNATURES } from "@/app/piano/lib/music";
 import styles from "./SettingsPanel.module.css";
 
-const NOTES_PER_PAGE = 20;
+function notesForPages(pages: number): number {
+  // Page 1 fits 12 notes (header takes space); subsequent pages fit 16 each
+  return 12 + Math.max(0, pages - 1) * 16;
+}
 
 interface Props {
   settings: GameSettings;
@@ -133,7 +136,7 @@ function WorksheetControls({ onPrint }: { onPrint: (keySig: string, count: numbe
         </select>
         <button
           className={styles.worksheetBtn}
-          onClick={() => onPrint("C", pages * NOTES_PER_PAGE)}
+          onClick={() => onPrint("C", notesForPages(pages))}
         >
           Generate Worksheet
         </button>
