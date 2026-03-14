@@ -6,7 +6,7 @@ import { KEY_SIGNATURES } from "@/app/piano/lib/music";
 import styles from "./SettingsPanel.module.css";
 
 function notesForPages(pages: number): number {
-  return pages * 16;
+  return 12 + Math.max(0, pages - 1) * 16;
 }
 
 interface Props {
