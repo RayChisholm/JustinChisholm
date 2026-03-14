@@ -114,3 +114,52 @@
   color: black;
   font-weight: 600;
 }
+
+/* Mobile overlay */
+.overlayBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.overlayBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: #f5f5f5;
+  border-bottom: 1px solid #ddd;
+  flex-shrink: 0;
+}
+
+.overlayHint {
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.overlayClose {
+  padding: 0.4rem 0.8rem;
+  background: #222;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.overlayScroll {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 1rem;
+}
+
+.containerOverlay {
+  position: static !important;
+  left: auto !important;
+  width: 100% !important;
+  pointer-events: auto !important;
+}

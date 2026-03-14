@@ -20,20 +20,31 @@ export default function PianoPage() {
   const [worksheetNotes, setWorksheetNotes] = useState<Note[]>([]);
   const [worksheetKeySig, setWorksheetKeySig] = useState<KeySig>(KEY_SIGNATURES[0]);
   const [worksheetAccidentals, setWorksheetAccidentals] = useState(false);
+  const [worksheetOverlay, setWorksheetOverlay] = useState(false);
+
+  function isMobile() {
+    return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  }
 
   function handlePrintWorksheet(keySigVexKey: string, count: number, allowAccidentals: boolean) {
     const keySig = KEY_SIGNATURES.find((k) => k.vexKey === keySigVexKey) ?? KEY_SIGNATURES[0];
     setWorksheetKeySig(keySig);
     setWorksheetAccidentals(allowAccidentals);
+    setWorksheetOverlay(isMobile());
     setWorksheetNotes(generateWorksheetNotes(count, keySig, allowAccidentals));
-    // window.print() fires via onAllRendered callback in WorksheetView
   }
 
   const handleAllRendered = useCallback(() => {
+    if (isMobile()) return; // overlay already visible — no print dialog needed
     setTimeout(() => {
       window.print();         // synchronous — blocks until dialog closes/cancels
       setWorksheetNotes([]);  // clear so effects don't re-fire
     }, 150);
+  }, []);
+
+  const handleOverlayClose = useCallback(() => {
+    setWorksheetNotes([]);
+    setWorksheetOverlay(false);
   }, []);
 
   return (
@@ -95,7 +106,14 @@ export default function PianoPage() {
         )}
       </div>
 
-      <WorksheetView notes={worksheetNotes} keySig={worksheetKeySig} allowAccidentals={worksheetAccidentals} onAllRendered={handleAllRendered} />
+      <WorksheetView
+        notes={worksheetNotes}
+        keySig={worksheetKeySig}
+        allowAccidentals={worksheetAccidentals}
+        overlay={worksheetOverlay}
+        onClose={handleOverlayClose}
+        onAllRendered={handleAllRendered}
+      />
     </main>
   );
 }

@@ -10,10 +10,12 @@ interface Props {
   notes: Note[];
   keySig: KeySig;
   allowAccidentals: boolean;
+  overlay?: boolean;
+  onClose?: () => void;
   onAllRendered?: () => void;
 }
 
-export function WorksheetView({ notes, keySig, allowAccidentals, onAllRendered }: Props) {
+export function WorksheetView({ notes, keySig, allowAccidentals, overlay = false, onClose, onAllRendered }: Props) {
   const renderedCount = useRef(0);
   const hasFired = useRef(false);
   const [mounted, setMounted] = useState(false);
@@ -36,8 +38,8 @@ export function WorksheetView({ notes, keySig, allowAccidentals, onAllRendered }
 
   if (!mounted || notes.length === 0) return null;
 
-  const content = (
-    <div className={styles.container} id="worksheet-print">
+  const sheet = (
+    <div className={`${styles.container} ${overlay ? styles.containerOverlay : ""}`} id="worksheet-print">
       <div className={styles.header}>
         <h1 className={styles.title}>Piano Sight-Reading Worksheet</h1>
         <div className={styles.headerMeta}>
@@ -67,9 +69,24 @@ export function WorksheetView({ notes, keySig, allowAccidentals, onAllRendered }
     </div>
   );
 
+  if (overlay) {
+    return createPortal(
+      <div className={styles.overlayBackdrop}>
+        <div className={styles.overlayBar}>
+          <span className={styles.overlayHint}>Use Share → Print to save as PDF</span>
+          <button className={styles.overlayClose} onClick={onClose}>✕ Close</button>
+        </div>
+        <div className={styles.overlayScroll}>
+          {sheet}
+        </div>
+      </div>,
+      document.body
+    );
+  }
+
   // Portal renders directly into document.body so print CSS can target it
   // (a display:none parent would otherwise block its children from showing in print)
-  return createPortal(content, document.body);
+  return createPortal(sheet, document.body);
 }
 
 function WorksheetStaff({ note, keySig, index, onRendered }: { note: Note; keySig: KeySig; index: number; onRendered: () => void }) {
