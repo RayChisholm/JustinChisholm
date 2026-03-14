@@ -28,7 +28,7 @@ export const siteConfig = {
       description:
         "Convert video files into customizable barcodes.",
       tech: ["Python", "OpenCV"],
-      url: "https://justin-chisholm.vercel.app/blog/video-barcoder",
+      url: "https://justinchisholm.com/blog/video-barcoder",
       urlExternal: true,
       urlLabel: "Blog",
       blogUrl: undefined as string | undefined,
